@@ -1,0 +1,9 @@
+# Environments
+/scripts/.venv
+
+# python notebooks and datasets
+/scripts/*.ipynb
+/scripts/*.xlsx
+
+# some scripts
+/scripts/try.py

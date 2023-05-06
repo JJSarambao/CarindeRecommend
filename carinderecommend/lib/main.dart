@@ -1,3 +1,4 @@
+import 'package:carinderecommend/views/chat_page.dart';
 import 'package:carinderecommend/views/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -18,8 +19,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      debugShowCheckedModeBanner: false,
-      home: const SplashScreen(),
+      // debugShowCheckedModeBanner: false,   // remove comments once deployed in production
+      home: const ChatPage(),
     );
   }
 }
