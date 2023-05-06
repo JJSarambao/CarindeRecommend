@@ -3,7 +3,7 @@
 
 # python notebooks and datasets
 /scripts/*.ipynb
-/scripts/*.xlsx
+*.xlsx
 
 # some scripts
 /scripts/try.py

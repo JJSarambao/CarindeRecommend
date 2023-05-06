@@ -99,9 +99,10 @@ def clear_terminal():
 if __name__ == '__main__':
     clear_terminal()
     print("Scraping data...")
-    scraper = Scraper("https://www.allrecipes.com/recipes/696/world-cuisine/asian/filipino/")
+    scraper = Scraper("https://www.allrecipes.com/recipes/17494/world-cuisine/asian/filipino/main-dishes/")
     scraper.scrape_links()
     scraper.scrape_data()
     scraper.to_excel("filipino_recipes.xlsx")
     clear_terminal()
     print("Done!")
+5
