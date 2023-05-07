@@ -2,8 +2,8 @@ import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'captured_image.dart';
+import 'package:tflite/tflite.dart';
 
 class LiveCamera extends StatefulWidget {
   const LiveCamera({super.key});
@@ -17,17 +17,19 @@ class _LiveCameraState extends State<LiveCamera> {
   List<CameraDescription>? cameras; //list out the camera available
   CameraController? controller; //controller for camera
   XFile? image; //for caputred image
+  // String _model = "";
 
   @override
   void initState() {
     loadCamera();
+    // _initModel();
     super.initState();
   }
 
-  loadCamera() async {
+  Future<void> loadCamera() async {
     cameras = await availableCameras();
     if (cameras != null) {
-      controller = CameraController(cameras![0], ResolutionPreset.max);
+      controller = CameraController(cameras![0], ResolutionPreset.high);
       //cameras[0] = first camera, change to 1 to another camera
 
       controller!.initialize().then((_) {
@@ -42,6 +44,24 @@ class _LiveCameraState extends State<LiveCamera> {
       }
     }
   }
+
+  @override
+  void dispose() {
+    Tflite.close();
+    super.dispose();
+  }
+
+  // Future<void> _initModel() async {
+  //   String? res = await Tflite.loadModel(
+  //       model: "assets/ssd_mobilenet.tflite",
+  //       labels: "assets/ssd_mobilenet.txt",
+  //       numThreads: 1, // defaults to 1
+  //       isAsset:
+  //           true, // defaults to true, set to false to load resources outside assets
+  //       useGpuDelegate:
+  //           false // defaults to false, set to true to use GPU delegate
+  //       );
+  // }
 
   @override
   Widget build(BuildContext context) {
