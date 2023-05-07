@@ -2,6 +2,8 @@ import 'package:carinderecommend/views/chat_page.dart';
 import 'package:carinderecommend/views/splash_screen.dart';
 import 'package:flutter/material.dart';
 
+import 'views/detection_screen.dart';
+
 // import 'views/dashboard.dart';
 
 void main() {
@@ -20,7 +22,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       // debugShowCheckedModeBanner: false,   // remove comments once deployed in production
-      home: const ChatPage(),
+      home: const LiveCamera(),
     );
   }
 }
