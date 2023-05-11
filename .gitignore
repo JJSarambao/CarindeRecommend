@@ -1,10 +1,11 @@
 # Environments
 /source/.venv
-/food-detector
 
-# python notebooks and datasets
-/scripts/*.ipynb
+# python notebooks, datasets, models
+/source/scripts/
+/source/models/
 *.xlsx
 
 # some scripts
-/scripts/try.py
+/source/scripts/try.py
+/source/uploads/
