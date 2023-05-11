@@ -1,147 +1,41 @@
 import 'package:camera/camera.dart';
+import 'package:carinderecommend/detection_controller.dart';
+import 'package:carinderecommend/views/image_capture.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'captured_image.dart';
-import 'package:tflite/tflite.dart';
+import 'package:get/get.dart';
 
-class LiveCamera extends StatefulWidget {
-  const LiveCamera({super.key});
-
-  @override
-  // ignore: library_private_types_in_public_api
-  _LiveCameraState createState() => _LiveCameraState();
-}
-
-class _LiveCameraState extends State<LiveCamera> {
-  List<CameraDescription>? cameras; //list out the camera available
-  CameraController? controller; //controller for camera
-  XFile? image; //for caputred image
-  // String _model = "";
-
-  @override
-  void initState() {
-    loadCamera();
-    // _initModel();
-    super.initState();
-  }
-
-  Future<void> loadCamera() async {
-    cameras = await availableCameras();
-    if (cameras != null) {
-      controller = CameraController(cameras![0], ResolutionPreset.high);
-      //cameras[0] = first camera, change to 1 to another camera
-
-      controller!.initialize().then((_) {
-        if (!mounted) {
-          return;
-        }
-        setState(() {});
-      });
-    } else {
-      if (kDebugMode) {
-        print("NO any camera found");
-      }
-    }
-  }
-
-  @override
-  void dispose() {
-    Tflite.close();
-    super.dispose();
-  }
-
-  // Future<void> _initModel() async {
-  //   String? res = await Tflite.loadModel(
-  //       model: "assets/ssd_mobilenet.tflite",
-  //       labels: "assets/ssd_mobilenet.txt",
-  //       numThreads: 1, // defaults to 1
-  //       isAsset:
-  //           true, // defaults to true, set to false to load resources outside assets
-  //       useGpuDelegate:
-  //           false // defaults to false, set to true to use GPU delegate
-  //       );
-  // }
+class DetectionScreen extends StatelessWidget {
+  const DetectionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
-
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFF18404),
-        centerTitle: true,
-        elevation: 5,
-        title: const Text("CarindeRecommend Demo"),
-      ),
-      body: Stack(
-        children: [
-          controller != null && controller!.value.isInitialized
-              ? Positioned.fill(
-                  child: AspectRatio(
-                    aspectRatio: controller!.value.aspectRatio,
-                    child: CameraPreview(controller!),
-                  ),
-                )
-              : Container(),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.white, width: 2),
-              ),
-              child: SizedBox(
-                width: screenWidth * 0.15,
-                height: screenWidth * 0.15,
-                child: FloatingActionButton(
-                  onPressed: () async {
-                    if (controller != null && controller!.value.isInitialized) {
-                      try {
-                        //disable rotation lock while taking picture
-                        await SystemChrome.setPreferredOrientations([
-                          DeviceOrientation.portraitUp,
-                          DeviceOrientation.portraitDown,
-                        ]);
-
-                        final XFile capturedImage =
-                            await controller!.takePicture();
-                        setState(() {
-                          image = capturedImage;
-                        });
-
-                        // navigate to next page with the captured image
-                        // ignore: use_build_context_synchronously
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                CapturedImagePage(image: capturedImage),
-                          ),
-                        );
-                      } catch (e) {
-                        if (kDebugMode) {
-                          print(e);
-                        } //show error
-                      } finally {
-                        //reenable rotation lock after taking picture
-                        await SystemChrome.setPreferredOrientations([
-                          DeviceOrientation.portraitUp,
-                          DeviceOrientation.portraitDown,
-                          DeviceOrientation.landscapeLeft,
-                          DeviceOrientation.landscapeRight,
-                        ]);
-                      }
-                    }
-                  },
-                  child: const Icon(Icons.camera),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
+    return Stack(
+      alignment: Alignment.center,
+      children: const [
+        DetectionViewer(),
+        CaptureImage(),
+      ],
     );
+  }
+}
+
+class DetectionViewer extends GetView<DetectionController> {
+  const DetectionViewer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GetX<DetectionController>(builder: (controller) {
+      if (!controller.isInitialized) {
+        if (kDebugMode) {
+          print('not utilizing camera');
+        }
+        return Container();
+      }
+      return SizedBox(
+          height: Get.height,
+          width: Get.width,
+          child: CameraPreview(controller.cameraController));
+    });
   }
 }

@@ -1,5 +1,6 @@
 # Environments
-/scripts/.venv
+/source/.venv
+/food-detector
 
 # python notebooks and datasets
 /scripts/*.ipynb

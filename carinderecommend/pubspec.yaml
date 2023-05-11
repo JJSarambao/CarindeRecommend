@@ -36,16 +36,14 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  
-  camera: ^0.10.5
-  tflite: ^1.1.2
-  image: ^3.0.2
+  get: ^4.6.5
+  camera: ^0.9.8+1
+  image: ^3.2.0
+  # tflite: ^1.0.7
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-  flutter_launcher_icons: "0.9.1"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -53,13 +51,6 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-
-flutter_icons:
-  android: true
-  ios: true
-  image_path: "assets/icon.png"
-  adaptive_icon_background: "#ffffff"
-  adaptive_icon_foreground: "assets/icon_adaptive_fore.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -75,8 +66,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
-    - assets/ssd_mobilenet.tflite
-    - assets/ssd_mobilenet.txt
+    - ssd_mobilenet.tflite
+    - ssd_mobilenet.txt
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
@@ -118,3 +109,8 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+camera:
+  git:
+    url: https://github.com/flutter/plugins.git
+    path: packages/camera/camera
+    ref: cfa709835ab85702ee8a9ed24bbe7a3fe736c3f5

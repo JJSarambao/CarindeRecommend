@@ -1,7 +1,7 @@
-import 'package:carinderecommend/views/chat_page.dart';
 import 'package:carinderecommend/views/splash_screen.dart';
 import 'package:flutter/material.dart';
-
+import 'package:get/route_manager.dart';
+import 'bindings.dart';
 import 'views/detection_screen.dart';
 
 // import 'views/dashboard.dart';
@@ -16,13 +16,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
+      initialBinding: GlobalBindings(),
       title: 'CarindeRecommend',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.orange,
       ),
-      // debugShowCheckedModeBanner: false,   // remove comments once deployed in production
-      home: const LiveCamera(),
+      debugShowCheckedModeBanner:
+          false, // remove comments once deployed in production
+      home: const DetectionScreen(),
     );
   }
 }
